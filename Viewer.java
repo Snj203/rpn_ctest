@@ -133,4 +133,7 @@ public class Viewer{
     textField1.setText(val1);
     textField2.setText(val2);
   }
+  public void update(String val){
+    textField1.setText(val);
+  }
 }

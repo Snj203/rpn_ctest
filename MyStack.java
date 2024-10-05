@@ -1,28 +1,34 @@
-public class MyStack{
-  private Character [] items;
+import java.util.EmptyStackException;
+public class MyStack<T>{
+  private Object [] items;
   private int top;
   public MyStack(){
-    items = new Character[10];
+    items = new Object[10];
     top = -1;
   }
-  public void push(char item){
+  public void push(T item){
     if(top == items.length - 1){
       resize();
     }
     items[++top] = item;
   }
-  public Character pop(){
-    if(top == 0){
-      throw new RuntimeException();
+  public T pop(){
+    if(isEmpty()){
+      throw new EmptyStackException();
     }
-    Character item = items[top];
-    items[top] = null;
-    top--;
+    T item = (T)items[top];
+    items[top--] = null;
     return item;
   }
+  public T peek(){
+    if(isEmpty()){
+      throw new EmptyStackException();
+    }
+    return (T)items[top];
+  }
   private void resize(){
-    Character [] newItems = new Character [items.length * 3 / 2];
-    System.arraycopy(items,0,newItems,0,newItems.length);
+    Object [] newItems = new Object [items.length + 10];
+    System.arraycopy(items,0,newItems,0,items.length);
     items = newItems;
   }
   public void clear(){
@@ -32,11 +38,11 @@ public class MyStack{
     top = -1;
   }
   public void toConsole(){
-    for(Character e : items){
-      if(e == null){
-        break;
-      }
-      System.out.print( e + " ");
+    for(int i = 0; i < items.length;i++){
+      System.out.println(items[i]);
     }
+  }
+  public boolean isEmpty(){
+    return top == -1;
   }
 }
