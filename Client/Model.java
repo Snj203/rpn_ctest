@@ -4,7 +4,7 @@ public class Model{
   private char action;
   private String result;
   private String temp;
-  private RPN rpn;
+  private ClientForBackendServerRPN client;
   public Model(Viewer viewer){
     this.viewer = viewer;
     toRPN = "";
@@ -82,7 +82,12 @@ public class Model{
         temp = toRPN;
         break;
       case ("DeleteLeft"):
-        toRPN = toRPN.substring(0,toRPN.length() - 1);
+        if(toRPN.length() >= 1){
+          toRPN = toRPN.substring(0,toRPN.length() - 1);
+        }
+        else{
+          toRPN = "0";
+        }
         temp = toRPN;
         break;
       case ("Clear"):
@@ -91,16 +96,9 @@ public class Model{
         temp = "";
         result = "";
         break;
-      case ("Equal"): //-1*2/(-3.8+0.8) |
-        rpn = new RPN();
-
-        System.out.println(toRPN);
-        result = rpn.toPostfix(toRPN);
-        System.out.println(result);
-        System.out.println("____________");
-        double a = rpn.doMath(result);
-        result = String.valueOf(a);
-        System.out.println(result);
+      case ("Equal"):
+        result = client.doRPN(toRPN);
+        System.out.println(" [" + result + "] MODEL");
         result = formatResult(result);
         System.out.println(result);
       }
@@ -112,9 +110,6 @@ public class Model{
     c2 = s.charAt(s.length() - 2);
     if(c1 == '0' && c2 == '.'){
       s = s.substring(0,s.indexOf('.'));
-    }
-    else{
-      s = s.substring(0,s.indexOf('.')) + s.substring(s.indexOf('.'),s.indexOf('.') + 6);
     }
     return s;
   }
