@@ -15,7 +15,7 @@ public class RPN{
   }
   public static String toPostfix(String s) {
     String postf = "";
-    MyStack<Character> stack = new MyStack<>();
+    MyStack stack = new MyStack();
     try{
       for (int i = 0; i < s.length(); i++) {
         char c = s.charAt(i);
@@ -29,10 +29,10 @@ public class RPN{
             postf += " ";
         }
         else if (c == '(') {
-          stack.push(c);
+          stack.push(String.valueOf(c));
         }
         else if (c == ')') {
-          while (!stack.isEmpty() && stack.peek() != '(') {
+          while (!stack.isEmpty() && !stack.peek().equals("(")){
             postf += stack.pop() + " ";
           }
             stack.pop();
@@ -44,10 +44,10 @@ public class RPN{
               && (i == 0 || !Character.isDigit(s.charAt(i-1)) && s.charAt(i - 1) != ')')){
             postf += "-";
           } else{
-            while (!stack.isEmpty() && (prec(s.charAt(i)) <= prec(stack.peek()))){
+            while (!stack.isEmpty() && (prec(s.charAt(i)) <= prec(stack.peek().charAt(0)))){
               postf += stack.pop() + " ";
             }
-            stack.push(c);
+            stack.push(String.valueOf(c));
           }
         }
       }
@@ -64,16 +64,16 @@ public class RPN{
     double operand1,operand2,result;
     result = -1.0;
     String [] arr = s.split(" ");
-    MyStack<Double>stack = new MyStack<>();
+    MyStack stack = new MyStack();
     for(String e : arr){
       if(e.length() > 1 || (e.length() == 1 && Character.isDigit(e.charAt(0)))){
         operand1 = Double.parseDouble(e);
-        stack.push(operand1);
+        stack.push(String.valueOf(operand1));
       }
       else{
         try{
-          operand2 = stack.pop();
-          operand1 = stack.pop();
+          operand2 = Double.valueOf(stack.pop());
+          operand1 = Double.valueOf(stack.pop());
         }
         catch(Exception ee){
           System.out.println("Stack pop gone bad");
@@ -94,7 +94,7 @@ public class RPN{
               result = operand1 / operand2;
               break;
           }
-          stack.push(result);
+          stack.push(String.valueOf(result));
         }
         catch(Exception exc){
           System.out.println("Something gone bad");

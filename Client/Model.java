@@ -15,43 +15,33 @@ public class Model{
     switch(command){
       case ("Zero"):
         toRPN = toRPN + "0";
-        temp = toRPN;
         break;
       case ("One"):
         toRPN = toRPN + "1";
-        temp = toRPN;
         break;
       case ("Two"):
         toRPN = toRPN + "2";
-        temp = toRPN;
         break;
       case ("Three"):
         toRPN = toRPN + "3";
-        temp = toRPN;
         break;
       case ("Four"):
         toRPN = toRPN + "4";
-        temp = toRPN;
         break;
       case ("Five"):
         toRPN = toRPN + "5";
-        temp = toRPN;
         break;
       case ("Six"):
         toRPN = toRPN + "6";
-        temp = toRPN;
         break;
       case ("Seven"):
         toRPN = toRPN + "7";
-        temp = toRPN;
         break;
       case ("Eight"):
         toRPN = toRPN + "8";
-        temp = toRPN;
         break;
       case ("Nine"):
         toRPN = toRPN + "9";
-        temp = toRPN;
         break;
       case ("Plus"):
         toRPN = toRPN + "+";
@@ -59,7 +49,7 @@ public class Model{
         break;
       case ("Minus"):
         toRPN = toRPN + "-";
-        temp = "";
+        temp = "-";
         break;
       case ("Multiply"):
         toRPN = toRPN + "*";
@@ -71,15 +61,17 @@ public class Model{
         break;
       case ("Point"):
         toRPN = toRPN + ".";
-        temp = toRPN;
         break;
       case ("OpenBracket"):
         toRPN = toRPN + "(";
-        temp = toRPN;
         break;
       case ("CloseBracket"):
         toRPN = toRPN + ")";
-        temp = toRPN;
+        break;
+      case ("ChangeSign"):
+        System.out.println(toRPN);
+        toRPN = changeSign(toRPN);
+        System.out.println(toRPN);
         break;
       case ("DeleteLeft"):
         if(toRPN.length() >= 1){
@@ -88,12 +80,10 @@ public class Model{
         else{
           toRPN = "0";
         }
-        temp = toRPN;
         break;
       case ("Clear"):
         action = '@';
         toRPN = "";
-        temp = "";
         result = "";
         break;
       case ("Equal"):
@@ -102,7 +92,26 @@ public class Model{
         result = formatResult(result);
         System.out.println(result);
       }
-      viewer.update(temp,result);
+      viewer.update(toRPN,result);
+  }
+  private static String changeSign(String s){
+    for(int i = s.length() - 1;i >= 0; i--){
+      if(!Character.isDigit(s.charAt(i))) {
+        if(s.charAt(i) == '-'){
+          String temp = s.substring(0,i) + "+" + s.substring(i + 1, s.length());
+          s = temp;
+          return temp;
+        } else if(s.charAt(i) == '+'){
+          String temp = s.substring(0,i) + "-" + s.substring(i + 1, s.length());
+          s = temp;
+          return temp;
+        }
+      }
+      else{
+        System.out.println("Nothing to change");
+      }
+    }
+    return s;
   }
   private String formatResult(String s){
     char c1,c2;

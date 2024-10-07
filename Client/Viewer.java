@@ -76,7 +76,8 @@ public class Viewer{
     btnDeleteLeft.addActionListener(controller);
     MyButton btnClear = new MyButton("C","Clear");
     btnClear.addActionListener(controller);
-
+    MyButton btnChangeSign = new MyButton("+/-","ChangeSign");
+    btnChangeSign.addActionListener(controller);
 
 
 
@@ -115,6 +116,7 @@ public class Viewer{
     btnPanel.add(btnEqual);
     btnPanel.add(btnDeleteLeft);
     btnPanel.add(btnClear);
+    btnPanel.add(btnChangeSign);
 
     JFrame frame = new JFrame();
     frame.setTitle("RPN_Calculator");
